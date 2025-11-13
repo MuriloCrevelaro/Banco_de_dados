@@ -1,46 +1,67 @@
---DDL (Data Definition Language)
+CREATE DATABASE db_Devconnect_T;
+GO
+--Para usar a database
 
-CREATE DATABASE db_devconnect
+USE db_Devconnect_T;
 
-CREATE TABLE tb_usuario(
-	id_usuario		 INT IDENTITY(1,1)		PRIMARY KEY,
-	nome_completo	 NVARCHAR(255)			NOT NULL,
-	nome_usuario	 NVARCHAR(60)			UNIQUE		NOT NULL,
-	email			 NVARCHAR(255)			UNIQUE		NOT NULL,
-	senha			 NVARCHAR(30)			NOT NULL,
-	foto_perfil_url  NVARCHAR(175) NULL
+-- criando as tabelas
+
+CREATE TABLE tb_Usuario(
+	id				INT IDENTITY	(1,1) PRIMARY KEY,
+	nomeCompleto	NVARCHAR		(255) NOT NULL,
+	nomeDeUsuario	NVARCHAR		(20) UNIQUE NOT NULL,
+	email			NVARCHAR		(255) UNIQUE NOT NULL,
+	senha			NVARCHAR		(50) NOT NULL,
+	fotoPerfilUrl	NVARCHAR		(255)
 );
-SELECT * FROM tb_usuario;
 
-CREATE TABLE tb_publicacao(
-	id_publi   INT IDENTITY(1,1)		PRIMARY KEY,
-	id_usuario INT FOREIGN KEY REFERENCES tb_usuario(id_usuario),
-	descricao NVARCHAR(255),
-	imagem_url  NVARCHAR(175) NULL,
-	data_publicacao DATE NOT NULL
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
+
+CREATE TABLE tb_Publicacao(
+	id				INT IDENTITY	(1,1) PRIMARY KEY,
+	descricao		NVARCHAR		(500),
+	imagemUrl		NVARCHAR		(255) NOT NULL,
+	data_Publicacao DATE NOT NULL,
+	id_Usuario		INT NOT NULL FOREIGN KEY REFERENCES tb_Usuario(id)
 );
-SELECT * FROM tb_publicacao;
 
-CREATE TABLE tb_curtidas(
-	id_curtida	    INT IDENTITY(1,1)		PRIMARY KEY,
-	id_usuario		INT FOREIGN KEY REFERENCES tb_usuario(id_usuario),
-	id_publi	INT FOREIGN KEY REFERENCES tb_publicacao(id_publi)
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
+
+CREATE TABLE tb_Curtida(
+	id				INT IDENTITY	(1,1) PRIMARY KEY,
+	id_Usuario		INT NOT NULL FOREIGN KEY REFERENCES tb_Usuario(id),
+	id_Publicacao	INT NOT NULL FOREIGN KEY REFERENCES tb_Publicacao(id)
 );
-SELECT * FROM tb_curtidas;
 
-CREATE TABLE tb_comentario(
-	id_coment		INT IDENTITY(1,1) PRIMARY KEY,
-	id_usuario		INT FOREIGN KEY REFERENCES tb_usuario(id_usuario),
-	id_publi	INT FOREIGN KEY REFERENCES tb_publicacao(id_publi),
-	texto			NVARCHAR(400),
-	data_comentario DATE NOT NULL
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
+
+CREATE TABLE tb_Comentario(
+	id				INT IDENTITY	(1,1) PRIMARY KEY,
+	texto			NVARCHAR		(300) NOT NULL,
+	dataComentario	DATE NOT NULL,
+	id_Publicacao	INT NOT NULL FOREIGN KEY REFERENCES tb_Publicacao(id),
+	id_Usuario		INT NOT NULL FOREIGN KEY REFERENCES tb_Usuario(id)
 );
-SELECT * FROM tb_comentario;
 
-CREATE TABLE tb_seguidor(
-	id_usuario	 INT FOREIGN KEY REFERENCES tb_usuario(id_usuario),
-	usuario_seguindo NVARCHAR(60)
-	PRIMARY KEY (usuario_seguindo,id_usuario)
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
+
+
+
+CREATE TABLE tb_Seguidor(                                   --tabela intermediaria
+	id_Usuario_Seguir INT NOT NULL,  --usuario que quer seguir
+	id_Usuario_Seguido INT NOT NULL,  --usuario que será seguido
+	PRIMARY KEY (id_Usuario_Seguir, id_Usuario_Seguido)
 );
-SELECT * FROM tb_seguidor;
 
+--Para deletar a tabela
+
+--||||||||||||||||	DROP TABLE tb_Usuario; ||||||||||||||||--
+
+--Para deletar o Banco de Dados
+
+--||||||||||||||||	DROP DATABASE db_Devconnect; ||||||||||||||||--
+
+--Alterar a tabela
+
+ALTER TABLE Tb_Curtida
+ADD UNIQUE( id_Usuario, id_Publicacao)

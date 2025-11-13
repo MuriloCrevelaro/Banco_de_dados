@@ -1,34 +1,64 @@
---DML (Data Manipulation Language)
+--Para usar a database
 
-USE db_devconnect;
+USE db_Devconnect_T;
+GO
 
-INSERT INTO tb_usuario (nome_completo, nome_usuario, email, senha, foto_perfil_url)
-VALUES	
-		('Vivia Marquezine', 'Vivi', 'vmarquezine@gmail.com.br', 'Senai@134', 'https://googleimagnes'),
-		('Marquezine Cleber', 'Mark', 'mcleber@gmail.com.br', 'Senai@134', 'https://googleimagnes'),
-		('Vaudir Ferreira', 'Vauvau', 'vferreira@gmail.com.br', 'Senai@134', 'https://googleimagnes'),
-		('Cleiton Figueira', 'Clei', 'cfigueira@gmail.com.br', 'Senai@134', 'https://googleimagnes'),
-		('Carlos Marquezine', 'Car', 'cmarquezine@gmail.com.br', 'Senai@134', 'https://googleimagnes');
-		
-SELECT * FROM tb_usuario;
+--para adicionar os registros
 
-INSERT INTO tb_publicacao (id_usuario, descricao, imagem_url, data_publicacao)
-VALUES(1, 'Para com disso', 'https://googlefotos', '2024/10/06'),
-	  (3, 'Gostei disso', 'https://googlefotos', '2024/09/08'),
-	  (5, 'Alguem me ajuda?!', 'https://googlefotos', '2024/11/16');
-SELECT * FROM tb_publicacao;
+INSERT INTO tb_Usuario (nomeCompleto, nomeDeUsuario, email, senha)
+VALUES 
+('Ricardo Santos', 'RicardoS12', 'RicardoS123@gmail.com', '124816'),
+('Joana Meneses', 'JoanMe', 'JoanMe@gmail.com', 'Joan#578');
 
-INSERT INTO tb_curtidas (id_usuario,id_publi)
+INSERT INTO tb_Usuario (nomeCompleto, nomeDeUsuario, email, senha, fotoPerfilUrl)
 VALUES
-	(1, 1),
-	(3, 2),
-	(5, 3);
-SELECT * FROM tb_curtidas;
+('Lidia da Cunha', 'Lidia123', 'LidiajJ@gmail.com', 'EUBFybew', 'https://foto.Aleatoria27642'),
+('Thiago Oscar', 'OscarFax', 'Faxioned@gmail.com', '635478', 'https://foto.Aleatoria7kvf'),
+('Thomas Cardio', 'PowerPlex', 'Wrecked@gmail.com', '321435', 'https://foto.Aleatoria7kvf'),
+('Fabio Juto', 'FbioLin', 'VentoAureo@gmail.com', 'UbutreRaivoso', 'https://foto.Aleatoria0924'),
+('Bruno Juto', 'BStar', 'JessiePark@gmail.com', 'Lavrador124', 'https://foto.Aleatoria0924');
 
-INSERT INTO tb_comentario (id_usuario, id_publi, texto, data_comentario)
-VALUES(1, 1, 'Porque gostou disso?', '2024/11/06');
-SELECT * FROM tb_comentario;
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
 
-INSERT INTO tb_seguidor (id_usuario, usuario_seguindo)
-VALUES( 1, 'Bruna Brernasdes');
-SELECT * FROM tb_seguidor;
+INSERT INTO tb_Publicacao (descricao, imagemUrl, data_publicacao, id_usuario)
+VALUES 
+('Made by "Doutor Paulo da Rocha"', 'https://foto.Aleatoria12', '2025-12-30', 1),
+('Codigo criado para satisfazer os clientes da loja', 'https://foto.Aleatoria1738', '2026-01-06', 2);
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
+
+TRUNCATE TABLE tb_Curtida
+INSERT INTO tb_Curtida (id_Usuario, id_Publicacao)
+VALUES 
+(11, 1)
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
+
+INSERT INTO tb_Comentario (texto, dataComentario, id_Publicacao, id_Usuario)
+VALUES 
+('incrivel!!!', '2026-02-08', '1', '3'),
+('Otima proposta', '2026-12-17', '2', '1'),
+('amei o codigo', '2026-01-07', '1', '4');
+
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ --
+
+INSERT INTO tb_Seguidor (id_Usuario_Seguir, id_Usuario_Seguido)
+VALUES 
+(3, 1),
+(2, 1),
+(1, 2);
+
+SELECT * FROM tb_Seguidor
+
+--para deletar os registros
+
+SELECT * FROM tb_Curtida
+
+TRUNCATE TABLE tb_Curtida
+
+--Para atualizar registros
+
+UPDATE tb_Usuario
+SET email = 'RicardoSAmazing@gmail.com'
+WHERE id = 1;
